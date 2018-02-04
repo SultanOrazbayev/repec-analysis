@@ -23,7 +23,11 @@ Data on authors is collected by RePEc Author Service (https://authors.repec.org)
 
 1D) Data on documents (works)
 
-Data on documents is provided by archive maintainers (mostly volunteers). The bash script "run-docs.bash" downloads the data and creates the following csv files: (document|jelcode), (document|meta). Meta information contains publication year, name of the journal of working paper series.
+TBD: Data on documents is provided by archive maintainers (mostly volunteers). The bash script "run-docs.bash" downloads the data and creates the following csv files: (document|jelcode), (document|meta). Meta information contains publication year, name of the journal of working paper series.
+
+1E) Data on organizations (institutions, departments, etc.)
+
+TBD.
 
 # Second steps (further processing and merging of the data)
 
