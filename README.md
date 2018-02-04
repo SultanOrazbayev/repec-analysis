@@ -7,6 +7,8 @@ The raw data can be processed in several independent procedures, after completin
 
 Software requirements: bash (curl, awk), rsync, Perl, jq.
 
+# First set of steps (getting the data and pre-processing it)
+
 1A) Data on citations
 
 Data on citations is processed/collected by CitEc (http://citec.repec.org). The bash script "run-citations.bash" downloads the raw data, processes it into csv format (cited paper ID | citing paper ID).
@@ -23,3 +25,6 @@ Data on authors is collected by RePEc Author Service (https://authors.repec.org)
 
 Data on documents is provided by archive maintainers (mostly volunteers). The bash script "run-docs.bash" downloads the data and creates the following csv files: (document|jelcode), (document|meta). Meta information contains publication year, name of the journal of working paper series.
 
+# Second steps (further processing and merging of the data)
+
+# Third step (analysis)
