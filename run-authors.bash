@@ -22,7 +22,7 @@ main() {
 getdata () {
 	cd "$dataraw"
 	mkdir -p authors
-	rsync -vaP --include .rdf --delete rsync://rsync.repec.org/RePEc-ReDIF/per authors
+	rsync -vaP --include="*/" --include="*.rdf" --include="*.redif" --exclude="*" --delete rsync://rsync.repec.org/RePEc-ReDIF/per authors
 }
 
 # function for processing the author data
