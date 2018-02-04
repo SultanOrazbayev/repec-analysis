@@ -31,7 +31,7 @@ convertrelated () {
 	cd "$dataraw"
 	perl HASH2JSON.pl related.dat
 	jq -rc 'to_entries|.[] as $x | $x.value | to_entries | .[] as $y | $y.value | to_entries | .[] as $z | [$x.key,$y.key,$z.key,$z.value.year,$z.value.source] | @csv' data_out.json > related-ready.txt
-	mv -v "related-ready.txt" "$dataprocessed/related-ready.txt"
+	{ echo "iddocument,relatedtype,idrelated,yearrelated,sourcerelated"; cat "related-ready.txt"; } > "$dataprocessed/related-ready.txt"
 }
 
 # launch

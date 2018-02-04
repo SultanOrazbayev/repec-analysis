@@ -31,7 +31,7 @@ processauthors () {
 	cd authors
 
 	# process information on author-claimed documents
-	LC_ALL=C grep -raiEH "^author-" . | sed -e "s#.*$pra/\(.*\).rdf:\([^:]*\):\ *\(.*\)#\1|\2|\3#" | cat > "$dataprocessed/author-allworks.txt"
+	{ echo "idauthor|doctype|iddocument"; LC_ALL=C grep -raiEH "^author-" . | sed -e "s#.*$pra/\(.*\).rdf:\([^:]*\):\ *\(.*\)#\1|\2|\3#" | cat; } > "$dataprocessed/author-allworks.txt"
 
 	# process information on author-claimed affiliations
 	#TBD

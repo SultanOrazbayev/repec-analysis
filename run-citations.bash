@@ -28,7 +28,7 @@ getdata () {
 # function for transforming the data
 transformcit () {
 	cd "$dataraw"
-	awk 'BEGIN {FS=" "} {n=split($2,a,"#"); for (i=0;++i <=n;) print tolower($1"|"a[i])}' "iscited.txt" > "rawcitations.txt" && cp "rawcitations.txt" "$dataprocessed/rawcitations.txt"
+	awk 'BEGIN {FS=" "} {n=split($2,a,"#"); for (i=0;++i <=n;) print tolower($1"|"a[i])}' "iscited.txt" > "rawcitations.txt" && { echo "idcited|idciting"; cat "rawcitations.txt"; } > "$dataprocessed/rawcitations.txt"
 }
 
 # launch
