@@ -26,7 +26,7 @@ main() {
 # function for getting the documents
 getdocuments () {
 
-        rsync -vaP --include="*/" --include="*.rdf" --include="*.redif" --exclude="*" --delete "$urlmirrorrepec" data/raw/repecall
+        LC_ALL=C rsync -vaP --include="*/" --include="*.rdf" --include="*.redif" --exclude="*" --delete "$urlmirrorrepec" data/raw/repecall
 
 }
 
