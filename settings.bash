@@ -1,5 +1,5 @@
 #!/bin/bash -x
-ssds
+
 # echo current dir and make folders
 echo "Current directory is:"
 pwd
