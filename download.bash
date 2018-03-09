@@ -26,7 +26,6 @@ main() {
 # function for getting the documents
 getdocuments () {
 
-        mkdir -p data/raw/repecall
         rsync -vaP --include="*/" --include="*.rdf" --include="*.redif" --exclude="*" --delete "$urlmirrorrepec" data/raw/repecall
 
 }
