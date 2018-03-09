@@ -7,7 +7,15 @@ The raw data can be processed in several independent procedures, after completin
 
 Software requirements: bash (curl, awk), rsync, Perl, jq.
 
-# First set of steps (getting the data and pre-processing it)
+# First step - downloading the data
+
+To download all the data (publications, citations, author, institutions), run bash script "download.bash".
+
+
+
+
+
+=======OLD STUFF BELOW
 
 1A) Data on citations
 
