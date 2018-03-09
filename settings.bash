@@ -4,7 +4,7 @@
 echo "Current directory is:"
 pwd
 
-mkdir -p data/raw
+mkdir -p data/raw/repecall
 mkdir -p data/processed
 mkdir -p data/ready
 
