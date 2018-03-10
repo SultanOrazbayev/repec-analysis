@@ -9,7 +9,7 @@
 main() {
 
 	# download the raw data
-	getdata
+#	getdata
 
 	# convert into json format
 	# the end format is (1)|(2), where (1) is a document ID and (2) is the ID of a related document (note that by default the data will be symmetric and to distinguish which of the files is the 'original' and which is 'latest' requires additional meta-data (further processing)
