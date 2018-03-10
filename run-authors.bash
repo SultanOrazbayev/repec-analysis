@@ -9,7 +9,7 @@
 main() {
 
 	# download the raw data
-#	getdata
+	getdata
 
 	# transform into author-specific information
 	processauthors

@@ -27,11 +27,10 @@ getdata () {
 
 # function to convert related data into json format
 convertrelated () {
-	cp "$supportscripts/HASH2JSON.pl" "$dataraw/HASH2JSON.pl"
-	cd "$dataraw"
-	perl HASH2JSON.pl related.dat
-	jq -rc 'to_entries|.[] as $x | $x.value | to_entries | .[] as $y | $y.value | to_entries | .[] as $z | [$x.key,$y.key,$z.key,$z.value.year,$z.value.source] | @csv' data_out.json > related-ready.txt
-	{ echo "iddocument,relatedtype,idrelated,yearrelated,sourcerelated"; cat "related-ready.txt"; } > "$dataprocessed/related-ready.txt"
+	pwd
+	perl HASH2JSON.pl "$dataraw/related.dat"
+	jq -rc 'to_entries|.[] as $x | $x.value | to_entries | .[] as $y | $y.value | to_entries | .[] as $z | [$x.key,$y.key,$z.key,$z.value.year,$z.value.source] | @csv' "$dataraw/data_out.json" > "$dataraw/related-ready.txt"
+	{ echo "iddocument,relatedtype,idrelated,yearrelated,sourcerelated"; cat "$dataraw/related-ready.txt"; } > "$dataprocessed/related-ready.txt"
 }
 
 # launch
