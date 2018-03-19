@@ -30,6 +30,6 @@ my $sf; # define $sf as reference to hash
 eval $data; # place hash from file to $sf
 
 # writing result hash to file
-open my $fh, ">", "data_out.json";
+open my $fh, ">", "data/processed/data_out.json";
 print $fh encode_json($sf);
 close $fh;
