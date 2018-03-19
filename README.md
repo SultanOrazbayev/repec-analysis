@@ -1,7 +1,7 @@
 # repec-analysis
 A set of scripts to analyse the data from RePEc.
 
-This is a work in progress. Comments are welcome! A descriptive paper is available here: https://ideas.repec.org/p/pra/mprapa/81963.html. Also, be sure to check out another repository with RePEc-related scripts: https://github.com/repec-org. 
+This is a work in progress. Comments are welcome! A descriptive paper is available here: https://ideas.repec.org/p/pra/mprapa/81963.html. Also, be sure to check out the official repository with RePEc-related scripts: https://github.com/repec-org. 
 
 The raw data can be processed in several independent procedures, after completing these procedures the processed data can be merged for further analysis.
 
@@ -11,6 +11,9 @@ Software requirements: bash (curl, awk), rsync, Perl, jq.
 
 To download all the data (publications, citations, author, institutions), run bash script "download.bash".
 
+# Second step - preparing data for further processing
+
+To prepare the data for further processing (extracting necessary information), run bash script "prepare.bash".
 
 
 
