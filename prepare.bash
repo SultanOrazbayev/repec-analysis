@@ -30,7 +30,7 @@ preparecitations () {
 preparerelated () {
 
 	# copy a supporting file
-	perl HASH2JSON.pl "data/raw/related.dat"
+	perl prepare-hash2json.pl "data/raw/related.dat"
 
 	echo "iddocument,relatedtype,idrelated,yearrelated,sourcerelated" > "data/processed/related-documents.txt"
         jq -rc 'to_entries|.[] as $x | $x.value | to_entries | .[] as $y | $y.value | to_entries | .[] as $z | [$x.key,$y.key,$z.key,$z.value.year,$z.value.source] | @csv' "data/processed/data_out.json" >> "data/processed/related-documents.txt"
