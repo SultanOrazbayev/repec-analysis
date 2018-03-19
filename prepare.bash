@@ -16,7 +16,7 @@ main() {
 	preparerelated
 
         # conclude
-        echo -e "Done processing! `date`"
+        echo -e "Done preparing! `date`"
 
 }
 

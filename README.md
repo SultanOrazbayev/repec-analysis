@@ -5,7 +5,7 @@ This is a work in progress. Comments are welcome! A descriptive paper is availab
 
 The raw data can be processed in several independent procedures, after completing these procedures the processed data can be merged for further analysis.
 
-Software requirements: bash (curl, awk), rsync, Perl, jq.
+Software requirements: bash (curl, awk), rsync, Perl, jq, parallel.
 
 # First step - downloading the data
 
