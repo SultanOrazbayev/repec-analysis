@@ -9,7 +9,7 @@ export LC_ALL=C
 # the function that describes the main sequence of events
 main() {
 
-	# create a list of author-claimeddocuments
+	# create a list of author-claimeddocuments and author-affiliations
 	processauthors
 
 	# create a list of author-affiliation
@@ -55,27 +55,9 @@ export -f getauthoraffiliations
 processauthors () {
 
 	echo "idauthor|documenttype|iddocument" > data/processed/author-documents.txt
-	find data/raw/repecall/per/pers -type f -name "*.rdf" | head | parallel -n 1 -I % getauthordocuments % >> data/processed/author-documents.txt
+	find data/raw/repecall/per/pers -type f -name "*.rdf" | parallel -n 1 -I % getauthordocuments % >> data/processed/author-documents.txt
 
-	find data/raw/repecall/per/pers -type f -name "*.rdf" | head | parallel -n 1 -I % getauthoraffiliations % > data/processed/author-affiliations.txt
-
-}
-
-preparecitations () {
-
-	echo "idcited|idciting" > "data/processed/rawcitations.txt"
-	gunzip -c "data/raw/iscited.txt.gz" | awk 'BEGIN {FS=" "} {n=split($2,a,"#"); for (i=0;++i <=n;) print tolower($1"|"a[i])}' >> "data/processed/rawcitations.txt"
-
-}
-
-preparerelated () {
-
-	# copy a supporting file
-	perl prepare-hash2json.pl "data/raw/related.dat"
-
-	echo "iddocument,relatedtype,idrelated,yearrelated,sourcerelated" > "data/processed/related-documents.txt"
-        jq -rc 'to_entries|.[] as $x | $x.value | to_entries | .[] as $y | $y.value | to_entries | .[] as $z | [$x.key,$y.key,$z.key,$z.value.year,$z.value.source] | @csv' "data/processed/data_out.json" >> "data/processed/related-documents.txt"
-	rm -v "data/processed/data_out.json"
+	find data/raw/repecall/per/pers -type f -name "*.rdf" | parallel -n 1 -I % getauthoraffiliations % > data/processed/author-affiliations.txt
 
 }
 
