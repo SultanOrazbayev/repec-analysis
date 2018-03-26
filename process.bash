@@ -12,8 +12,8 @@ main() {
 	# create a list of author-claimeddocuments and author-affiliations
 	processauthors
 
-	# create a list of author-affiliation
-#	processaffiliations
+	# process document information
+#	processdocuments
 
         # conclude
         echo -e "Done processing! `date`"
@@ -60,6 +60,31 @@ processauthors () {
 	find data/raw/repecall/per/pers -type f -name "*.rdf" | parallel -n 1 -I % getauthoraffiliations % > data/processed/author-affiliations.txt
 
 }
+
+extractdocumentinfo () {
+	
+        # tempcopy to avoid reading the file multiple times
+        tempcopy=$( cat "$1" | awk '{print tolower($0)}')
+
+	#process the file
+	echo "$tempcopy" | while IFS='' read -r line || [[ -n "$line" ]]; do
+		if [[ 0 == 1 ]]; then
+	:
+		else
+:	
+fi
+	done
+
+}
+export -f extractdocumentinfo
+
+processdocuments () {
+
+	# exclude directory with author and institutions information
+	find data/raw/repecall/per/pers -type f -name "*.rdf" -not -path "data/raw/repecall/per*" | head | parallel -n 1 -I % extractjelcodes % > data/processed/documents-jelcodes.txt
+
+}
+
 
 # launch
 
