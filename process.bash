@@ -68,7 +68,7 @@ extractdocumentinfo () {
 
 	#process the file
 	echo "$tempcopy" | while IFS='' read -r line || [[ -n "$line" ]]; do
-		if [[ 0 == 1 ]]; then
+		if [[ "$line" == ^"template-type.*" ]]; then
 	:
 		else
 :	
