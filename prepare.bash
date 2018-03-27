@@ -10,10 +10,13 @@ export LC_ALL=C
 main() {
 
 	# create a list of cited-citing documents
-	preparecitations
+#	preparecitations
 
 	# create a list of related documents
-	preparerelated
+#	preparerelated
+
+	# create a json file with document meta-data
+	preparemetadata
 
         # conclude
         echo -e "Done preparing! `date`"
@@ -36,6 +39,50 @@ preparerelated () {
         jq -rc 'to_entries|.[] as $x | $x.value | to_entries | .[] as $y | $y.value | to_entries | .[] as $z | [$x.key,$y.key,$z.key,$z.value.year,$z.value.source] | @csv' "data/processed/data_out.json" >> "data/processed/related-documents.txt"
 	rm -v "data/processed/data_out.json"
 
+}
+
+# this function accepts a file and converts it to json format
+converttojson () {
+
+	while read -r rawline; do
+		line=$( echo "$rawline" | awk '{print tolower($0)}'| tr -d '\r' )
+		if [[ $line =~ ^template-type:.*  ]]; then
+			echo -e "{\"filename\":\"$fname\"",
+			closed=0
+			authors=""
+			echo -e "$line" | sed -e "s#^\([^:]*\):\(.*\)#\"\1\" : \"\2\"#"
+		elif [[ $line =~ ^author-name:.* ]]; then
+			tempname=$( echo -e "$line" | sed -e "s#^\([^:]*\):\(.*\)#\"\2\"#" )
+			if [[ $authors == "" ]]; then
+			authors="$tempname"
+			else
+			authors="$authors, $tempname"
+			fi
+		elif [[ $line =~ ^$ ]]  && [[ $closed == 0 ]]; then
+			if [[ $authors != "" ]]; then
+				echo -e ",\"authors\": [ $authors ] "
+			fi
+			echo "}"
+			closed=1
+		elif [[ $line =~ ^title:.*|^creation-date:.*|^length:.*|^classification-jel:.*|^keywords:.*|^handle:.*|^paper-handle:.*|^name:.*|^type:.*|^revision-date:.*|^number:.*|^volume:.*|^issue:.*|^doi:.*|^year:.*|^month:.*|^journal:.*|^edition:.*|^in-book:.*|^pages:.*|^chapter:.*|^description:.*  ]]; then
+			echo -e "$line" | sed -e "s#^\([^:]*\):\(.*\)#,\"\1\" : \"\2\"#"
+		fi
+	done < "$1"
+
+		if [[ "$closed" == 0 ]]; then
+                        if [[ $authors != "" ]]; then
+                                echo -e ",\"authors\": [ $authors ] "
+                        fi
+                        echo "}"
+                        closed=1
+		fi 
+
+}
+export -f converttojson
+
+preparemetadata () {
+	# find .rdf files and process them in parallel
+	find data -type f -name "*.rdf" | parallel -I % -n 1 converttojson % > data/processed/metadata.json
 }
 
 # launch
