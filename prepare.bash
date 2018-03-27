@@ -45,27 +45,32 @@ preparerelated () {
 converttojson () {
 
 	while read -r rawline; do
-		line=$( echo "$rawline" | awk '{print tolower($0)}'| tr -d '\r' )
-		if [[ $line =~ ^template-type:.*  ]]; then
-			echo -e "{\"filename\":\"$fname\"",
+		line=$( echo "$rawline" | awk '{print tolower($0)}'| tr -d '\000-\011\013\014\016-\037' | tr -d '\r' | sed $'s/\xEF\xBB\xBF//' | awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' )
+		if [[ $line =~ ^.*template-type:.*  ]]; then
+
+			# if closed is 0 then the previous entry is not complete
+			# if closed is 1 then this is a new entry
+				if [[ $closed == 0 ]]; then
+	        	                if [[ $authors != "" ]]; then
+        	        	                echo -e ",\"authors\": [ $authors ] "
+                	        	fi
+	                        	echo "}"
+		                	closed=1
+				fi
+		
+			echo -e "{\"filename\":\"$1\"",
 			closed=0
 			authors=""
 			echo -e "$line" | sed -e "s#^\([^:]*\):\(.*\)#\"\1\" : \"\2\"#"
 		elif [[ $line =~ ^author-name:.* ]]; then
-			tempname=$( echo -e "$line" | sed -e "s#^\([^:]*\):\(.*\)#\"\2\"#" )
+			tempname=$( echo -e "$line" | sed -e 's#"##g' -e "s#^\([^:]*\):\(.*\)#\"\2\"#" )
 			if [[ $authors == "" ]]; then
 			authors="$tempname"
 			else
 			authors="$authors, $tempname"
 			fi
-		elif [[ $line =~ ^$ ]]  && [[ $closed == 0 ]]; then
-			if [[ $authors != "" ]]; then
-				echo -e ",\"authors\": [ $authors ] "
-			fi
-			echo "}"
-			closed=1
 		elif [[ $line =~ ^title:.*|^creation-date:.*|^length:.*|^classification-jel:.*|^keywords:.*|^handle:.*|^paper-handle:.*|^name:.*|^type:.*|^revision-date:.*|^number:.*|^volume:.*|^issue:.*|^doi:.*|^year:.*|^month:.*|^journal:.*|^edition:.*|^in-book:.*|^pages:.*|^chapter:.*|^description:.*  ]]; then
-			echo -e "$line" | sed -e "s#^\([^:]*\):\(.*\)#,\"\1\" : \"\2\"#"
+			echo -e "$line" | sed -e 's#"##g' -e "s#^\([^:]*\):\(.*\)#,\"\1\" : \"\2\"#"
 		fi
 	done < "$1"
 
